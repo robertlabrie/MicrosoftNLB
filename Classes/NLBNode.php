@@ -40,6 +40,16 @@ class NLBNode
 	private $hostname;
 	private $com;
 	private $node;
+	public function refresh()
+	{
+		//re-query WMI to get the mode up to date info about the node
+		$nodes = $this->com->ExecQuery("SELECT * FROM MicrosoftNLB_Node where ComputerName = '" . $this->hostname . "'");
+		foreach ($nodes as $node)
+		{
+			$this->node = $node;
+		}
+	
+	}
 	public function getNode()
 	{
 		return $this->node;
@@ -48,11 +58,7 @@ class NLBNode
 	{
 		$this->hostname = $hostname;
 		$this->com = new COM( 'winmgmts://' . $hostname . '/root/MicrosoftNLB' );
-		$nodes = $this->com->ExecQuery("SELECT * FROM MicrosoftNLB_Node where ComputerName = '$hostname'");
-		foreach ($nodes as $node)
-		{
-			$this->node = $node;
-		}
+		$this->refresh();
 	}
 	public function __get($key)
 	{
@@ -62,8 +68,8 @@ class NLBNode
 	{
 		if (in_array($key,$this->properties)) { $this->node->$key = $value; }
 	}
-	public function __call($name,$arguments)
+	public function __call($key,$arguments)
 	{
-		if (in_array($key,$this->methods)) { return $this->node->$key(); }
+		if (in_array($key,$this->methods)) { return $this->node->$key($arguments); }
 	}
 }

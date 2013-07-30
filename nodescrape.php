@@ -12,10 +12,13 @@ foreach ($nodes as $node)
 	
 	//echo $node->ComputerName . "\t" . $node->DedicatedIPAddress . "\t" . $node->StatusCode . "\n";
 	$oNode[$i] = new NLBNode($node->ComputerName);
-	$n = $oNode[$i]->getNode();
-	$n->Stop();
+	//$n = $oNode[$i]->getNode();
+	//$n->Stop();
 	echo $oNode[$i]->ComputerName . "\t" . $oNode[$i]->DedicatedIPAddress . "\t" . $oNode[$i]->StatusCode . "\n";
-	//$oNode[$i]->Stop();
+	//$oNode[$i]->Start();
+	$oNode[$i]->Stop();
+	$oNode[$i]->refresh();
+	echo $oNode[$i]->ComputerName . "\t" . $oNode[$i]->DedicatedIPAddress . "\t" . $oNode[$i]->StatusCode . "\n";
 	$i++;
 }
 
