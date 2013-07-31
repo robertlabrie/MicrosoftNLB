@@ -50,14 +50,19 @@ class NLBNode
 		}
 	
 	}
+	public static function WMI($hostname)
+	{
+		 return 'winmgmts://' . $hostname . '/root/MicrosoftNLB';
+	}
 	public function getNode()
 	{
 		return $this->node;
 	}
-	public function __construct($hostname)
+	public function __construct($com,$hostname)
 	{
+		$this->com = $com;
 		$this->hostname = $hostname;
-		$this->com = new COM( 'winmgmts://' . $hostname . '/root/MicrosoftNLB' );
+		//$this->com = new COM( 'winmgmts://' . $hostname . '/root/MicrosoftNLB' );
 		$this->open();
 	}
 	public function __get($key)
