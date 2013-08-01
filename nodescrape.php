@@ -1,24 +1,26 @@
 <?php
-include_once("./Classes/NLBNode.php");
+function __autoload($class_name) {
+    include "Classes/" . $class_name . '.php';
+}
 error_reporting(E_ALL);
-$host = "10.10.10.11";
 
-$obj = new COM(NLBNode::WMI($host));
+//connect to a single node in the cluster
+$host = "WEB1.contoso.local";
+$com = new COM(NLBNode::WMI($host));
+$nodeInitial = new NLBNode($host,$com);
 
-$nodes = $obj->ExecQuery("SELECT * FROM MicrosoftNLB_Node");
-$i = 0;
-foreach ($nodes as $node)
+//get the peers and pack them into an array
+$clusterNodes = $nodeInitial->peers();
+$nodes = Array();
+foreach ($clusterNodes as $wmiNode)
 {
-	
-	//echo $node->ComputerName . "\t" . $node->DedicatedIPAddress . "\t" . $node->StatusCode . "\n";
-	$oNode[$i] = new NLBNode(new COM(NLBNode::WMI($node->ComputerName)), $node->ComputerName);
-	//$n = $oNode[$i]->getNode();
-	//$n->Stop();
-	echo $oNode[$i]->ComputerName . "\t" . $oNode[$i]->DedicatedIPAddress . "\t" . $oNode[$i]->StatusCode . "\n";
-	//$oNode[$i]->Start();
-	//$oNode[$i]->Start();
-	$oNode[$i]->open();
-	echo $oNode[$i]->ComputerName . "\t" . $oNode[$i]->DedicatedIPAddress . "\t" . $oNode[$i]->StatusCode . "\n";
-	$i++;
+	$host = $wmiNode->ComputerName;
+	$nodes[$host] = new NLBNode($host);
+	$nodes[$host]->open();	//populate the WMI object
 }
 
+//now that we're aware of all the nodes in the cluster, do something like print their status
+foreach ($nodes as $node)
+{
+	echo $node->ComputerName . "\t" . $node->StatusCode . "\n";
+}

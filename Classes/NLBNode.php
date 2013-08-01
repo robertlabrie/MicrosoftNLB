@@ -1,85 +1,51 @@
 <?php
-class NLBNode
+class NLBNode extends MicrosoftNLB_Node
 {
-	private $properties = Array(
-		'Caption',
-		'ComputerName',
-		'CreationClassName',
-		'DedicatedIPAddress',
-		'Description',
-		'HostPriority',
-		'InitialLoadInfo',
-		'InstallDate',
-		'LastLoadInfo',
-		'Name',
-		'NameFormat',
-		'PowerManagementCapabilities',
-		'PowerManagementSupported',
-		'PowerState',
-		'PrimaryOwnerContact',
-		'PrimaryOwnerName',
-		'ResetCapability',
-		'Roles',
-		'Status',
-		'StatusCode',
-		);
-	private $methods = Array(
-		'Disable',
-		'DisableEx',
-		'Drain',
-		'DrainEx',
-		'DrainStop',
-		'Enable',
-		'EnableEx',
-		'Resume',
-		'SetPowerState',
-		'Start',
-		'Stop',
-		'Suspend',
-	);
-	private $hostname;
 	private $com;
-	private $node;
+	private $host;
+	
+	//override the constructor to take an optional WMI object
+	public function __construct($host,$com = null)
+	{
+		if (!$com) { $com = new COM(NLBNode::WMI($host)); }
+		$this->com = $com;
+		$this->host = $host;
+		$this->open();	//open the object
+	}
+
+	/**
+	Run the WQL to get a single WMI object representing this node, then set it back to $this->obj for usage
+	**/
 	public function open()
 	{
-		//re-query WMI to get the mode up to date info about the node
-		$nodes = $this->com->ExecQuery("SELECT * FROM MicrosoftNLB_Node where ComputerName = '" . $this->hostname . "'");
-		foreach ($nodes as $node)
+		try
 		{
-			$this->node = $node;
+			$nodes = $this->com->ExecQuery("SELECT * FROM MicrosoftNLB_Node where ComputerName = '" . $this->host . "'");
+			if (!$nodes) { return false; }
+			foreach ($nodes as $node)
+			{
+				$this->obj = $node;
+			}
 		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+		return true;
 	
 	}
-	private function peers()
+	public function peers()
 	{
+	
 		$nodes = $this->com->ExecQuery("SELECT * FROM MicrosoftNLB_Node");
 		return $nodes;
 	}
-	public static function WMI($hostname)
+	public static function WMI($host)
 	{
-		 return 'winmgmts://' . $hostname . '/root/MicrosoftNLB';
+		 return 'winmgmts://' . $host . '/root/MicrosoftNLB';
 	}
 	public function getNode()
 	{
 		return $this->node;
-	}
-	public function __construct($com,$hostname)
-	{
-		$this->com = $com;
-		$this->hostname = $hostname;
-		//$this->com = new COM( 'winmgmts://' . $hostname . '/root/MicrosoftNLB' );
-		$this->open();
-	}
-	public function __get($key)
-	{
-		if (in_array($key,$this->properties)) { return $this->node->$key; }
-	}
-	public function __set($key,$value)
-	{
-		if (in_array($key,$this->properties)) { $this->node->$key = $value; }
-	}
-	public function __call($key,$arguments)
-	{
-		if (in_array($key,$this->methods)) { return $this->node->$key($arguments); }
 	}
 }
