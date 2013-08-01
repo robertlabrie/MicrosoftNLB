@@ -1,0 +1,20 @@
+{
+    "name": "robertlabrie/microsoftnlb",
+    "description": "Classes and tools for Microsoft NLB",
+    "license": "GPL V2",
+    "authors": [
+        {
+            "name": "Robert Labrie",
+            "email": "robert.labrie@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+		"react/react": "0.3.*@dev"
+    },
+	"autoload": {
+		"psr-0": {
+			"MicrosoftNLB": "src/"
+		}
+	}
+}
