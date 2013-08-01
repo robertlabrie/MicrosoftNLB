@@ -29,7 +29,7 @@ class MicrosoftNLB_ClusterSetting
 		'SetDefaults',
 		'AccessNLBRegParam'
 	);
-	private $obj;
+	protected $obj;
 	public function __construct($obj)
 	{
 		$this->obj = $obj;

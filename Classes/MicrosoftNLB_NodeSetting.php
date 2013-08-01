@@ -36,7 +36,7 @@ class MicrosoftNLB_NodeSetting
 		'LoadAllSettings',
 		'SetDefaults'
 	);
-	private $obj;
+	protected $obj;
 	public function __construct($obj)
 	{
 		$this->obj = $obj;

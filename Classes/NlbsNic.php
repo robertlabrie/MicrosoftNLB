@@ -21,7 +21,7 @@ class NlbsNic
 		'GetNetworkConfiguration',
 		'SetIPv6NetworkPrefixLength'
 	);
-	private $obj;
+	protected $obj;
 	public function __construct($obj)
 	{
 		$this->obj = $obj;

@@ -37,7 +37,7 @@ class MicrosoftNLB_Node
 		'Stop',
 		'Suspend'
 	);
-	private $obj;
+	protected $obj;
 	public function __construct($obj)
 	{
 		$this->obj = $obj;

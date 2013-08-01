@@ -19,7 +19,7 @@ class MicrosoftNLB_PortRuleEx
 	private $methods = Array(
 		'SetDefaults'
 	);
-	private $obj;
+	protected $obj;
 	public function __construct($obj)
 	{
 		$this->obj = $obj;

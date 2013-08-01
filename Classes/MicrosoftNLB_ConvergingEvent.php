@@ -16,7 +16,7 @@ class MicrosoftNLB_ConvergingEvent
 	private $methods = Array(
 		''
 	);
-	private $obj;
+	protected $obj;
 	public function __construct($obj)
 	{
 		$this->obj = $obj;
