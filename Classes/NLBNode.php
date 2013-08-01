@@ -50,6 +50,11 @@ class NLBNode
 		}
 	
 	}
+	private function peers()
+	{
+		$nodes = $this->com->ExecQuery("SELECT * FROM MicrosoftNLB_Node");
+		return $nodes;
+	}
 	public static function WMI($hostname)
 	{
 		 return 'winmgmts://' . $hostname . '/root/MicrosoftNLB';
