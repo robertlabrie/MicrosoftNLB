@@ -1,6 +1,5 @@
 <?php
 namespace MicrosoftNLB;
-use MicrosoftNLB\MicrosoftNLB_Node;
 class NLBNode extends MicrosoftNLB_Node
 {
 	private $com;

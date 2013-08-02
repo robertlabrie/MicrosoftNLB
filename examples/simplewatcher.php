@@ -1,15 +1,14 @@
 <?php
+/******************************/
+/* user configuration block   */
+$host = "WEB1.contoso.local";
+$interval = 5;
+
+/******************************/
 require_once "../vendor/autoload.php";
 use MicrosoftNLB\NLBNode;
+$loop = React\EventLoop\Factory::create();
 
-if (!isset($argv[1]))
-{
-	echo "usage php listnode.php hostname\n";
-	echo "where hostname is a node in the cluster\n";
-}
-$host = $argv[1];
-
-//connect to a single node in the cluster
 $com = new COM(NLBNode::WMI($host));
 $nodeInitial = new MicrosoftNLB\NLBNode($host,$com);
 
@@ -23,8 +22,12 @@ foreach ($clusterNodes as $wmiNode)
 	$nodes[$host]->open();	//populate the WMI object
 }
 
-//now that we're aware of all the nodes in the cluster, do something like print their status
-foreach ($nodes as $node)
-{
-	echo $node->ComputerName . "\t" . $node->StatusCode . "\n";
-}
+$loop->addPeriodicTimer($interval, function ($timer) {
+	$nodes = $GLOBALS["nodes"];
+	foreach ($nodes as $node)
+	{
+		$node->open();
+		echo $node->ComputerName . "\t" . $node->StatusCode . "\n";
+	}
+});
+$loop->run();
