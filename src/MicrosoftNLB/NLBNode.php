@@ -4,7 +4,7 @@ class NLBNode extends MicrosoftNLB_Node
 {
 	private $com;
 	private $host;
-	
+	private $open;
 	//override the constructor to take an optional WMI object
 	public function __construct($host,$com = null)
 	{
@@ -19,6 +19,7 @@ class NLBNode extends MicrosoftNLB_Node
 	 **/
 	public function open()
 	{
+		$this->open = true;
 		try
 		{
 			$nodes = $this->com->ExecQuery("SELECT * FROM MicrosoftNLB_Node where ComputerName = '" . $this->host . "'");
@@ -30,11 +31,12 @@ class NLBNode extends MicrosoftNLB_Node
 		}
 		catch (Exception $e)
 		{
-			return false;
+			$this->open = false;
 		}
-		return true;
+		return $this->open;
 	
 	}
+	public function isOpen() { return $this->open; }
 	public function peers()
 	{
 	
