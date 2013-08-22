@@ -15,8 +15,8 @@ class NLBNode extends MicrosoftNLB_Node
 	}
 
 	/**
-	Run the WQL to get a single WMI object representing this node, then set it back to $this->obj for usage
-	**/
+	 * Run the WQL to get a single WMI object representing this node, then set it back to $this->obj for usage
+	 **/
 	public function open()
 	{
 		try
