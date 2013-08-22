@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_NodeSettingPortRule
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'GroupComponent',
 		'PartComponent'
 	);

@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_PortRuleFailover
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'AdapterGuid',
 		'Caption',
 		'Description',

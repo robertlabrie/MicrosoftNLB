@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_ConvergingEvent
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'Active',
 		'AdapterGuid',
 		'Cause',

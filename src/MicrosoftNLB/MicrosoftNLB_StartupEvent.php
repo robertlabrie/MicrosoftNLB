@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_StartupEvent
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'Active',
 		'InstanceName',
 		'SECURITY_DESCRIPTOR',

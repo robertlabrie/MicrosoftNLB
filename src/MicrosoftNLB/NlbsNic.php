@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class NlbsNic
 {
-	private $properties = Array(
+	protected $properties = Array(
 		''
 	);
 	private $methods = Array(

@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_Node
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'Caption',
 		'ComputerName',
 		'CreationClassName',

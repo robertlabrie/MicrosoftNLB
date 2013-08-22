@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_ClusterClusterSetting
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'Element',
 		'Setting'
 	);

@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_Cluster
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'Caption',
 		'ClusterState',
 		'CreationClassName',

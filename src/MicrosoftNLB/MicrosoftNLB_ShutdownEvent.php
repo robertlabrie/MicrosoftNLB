@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_ShutdownEvent
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'Active',
 		'InstanceName',
 		'SECURITY_DESCRIPTOR',

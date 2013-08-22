@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_NodeNodeSetting
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'Element',
 		'Setting'
 	);

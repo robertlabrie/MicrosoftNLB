@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_ExtendedStatus
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'Description',
 		'Operation',
 		'ParameterInfo',

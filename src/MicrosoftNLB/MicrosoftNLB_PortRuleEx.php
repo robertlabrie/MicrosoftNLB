@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_PortRuleEx
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'AdapterGuid',
 		'Affinity',
 		'ClientStickinessTimeout',

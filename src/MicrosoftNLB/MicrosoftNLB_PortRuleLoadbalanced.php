@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_PortRuleLoadbalanced
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'AdapterGuid',
 		'Affinity',
 		'Caption',

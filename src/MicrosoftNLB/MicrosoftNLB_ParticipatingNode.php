@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_ParticipatingNode
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'Antecedent',
 		'Dependent',
 		'RoleOfNode',

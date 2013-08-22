@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_ClusterSetting
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'AdapterGuid',
 		'BDAReverseHash',
 		'BDATeamActive',

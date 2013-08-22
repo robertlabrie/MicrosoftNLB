@@ -2,7 +2,7 @@
 namespace MicrosoftNLB;
 class MicrosoftNLB_NodeSetting
 {
-	private $properties = Array(
+	protected $properties = Array(
 		'AdapterGuid',
 		'AliveMessagePeriod',
 		'AliveMessageTolerance',
