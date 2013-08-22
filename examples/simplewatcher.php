@@ -1,33 +1,49 @@
 <?php
-/******************************/
-/* user configuration block   */
-$host = "WEB1.contoso.local";
-$interval = 5;
-
-/******************************/
+$g['clusterip'] = "10.10.10.50";
+$g['testurl'] = "/nlb/nlb.php";
+$g['interval'] = 3;
 require_once "../vendor/autoload.php";
 use MicrosoftNLB\NLBNode;
+
 $loop = React\EventLoop\Factory::create();
 
-$com = new COM(NLBNode::WMI($host));
-$nodeInitial = new MicrosoftNLB\NLBNode($host,$com);
+$clusterNode = new NLBNode($g['clusterip']);
 
-//get the peers and pack them into an array
-$clusterNodes = $nodeInitial->peers();
-$nodes = Array();
-foreach ($clusterNodes as $wmiNode)
+$nodes = $clusterNode->peers();
+$i = 0;
+foreach ($nodes as $node)
 {
-	$host = $wmiNode->ComputerName;
-	$nodes[$host] = new NLBNode($host);
-	$nodes[$host]->open();	//populate the WMI object
-}
+	$i++;
+	$n = new NLBNode($node->ComputerName);
+	echo "$i:I:"  $n->ComputerName . ":starting\n";
+	$loop->addPeriodicTimer($g['interval'], function ($timer) use ($g,$i,$n) {
+		nodeCheck($g,$i,$n);
+	});
 
-$loop->addPeriodicTimer($interval, function ($timer) {
-	$nodes = $GLOBALS["nodes"];
-	foreach ($nodes as $node)
-	{
-		$node->open();
-		echo $node->ComputerName . "\t" . $node->StatusCode . "\n";
-	}
-});
+}
 $loop->run();
+function nodeCheck($g,$index,&$node)
+{
+	$status = $node->open();	//refresh the node status from WMI
+	if (!$status)
+	{
+		echo "$index:E:" . $node->ComputerName . ":failed to get status\n";
+	}
+	$url = "http://" . $node->ComputerName . $g['testurl'];
+	return;
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+
+	echo "$index:I: checking $url\n";
+	$working = false;
+	$data = curl_exec($ch);
+	$res = curl_getinfo($ch);
+	if ($res['http_code'] == '200') { $working = true; }
+	
+	if (!$working)
+	{
+		//echo "$index:E:
+	}
+
+	
+}
