@@ -5,6 +5,10 @@ class NLBNode extends MicrosoftNLB_Node
 	private $com;
 	private $host;
 	private $open;
+	public $scrap;
+	public $ch;
+	public $statusOffline = Array("0","1005","1009","1013");
+	public $statusOnline = Array("1006","1007","1008");
 	//override the constructor to take an optional WMI object
 	public function __construct($host,$com = null)
 	{
@@ -23,20 +27,27 @@ class NLBNode extends MicrosoftNLB_Node
 		try
 		{
 			$nodes = $this->com->ExecQuery("SELECT * FROM MicrosoftNLB_Node where ComputerName = '" . $this->host . "'");
+		}
+		catch (\Exception $e)
+		{
+			$this->open = false;
+		}
+		if ($this->open)
+		{
 			if (!$nodes) { return false; }
 			foreach ($nodes as $node)
 			{
 				$this->obj = $node;
 			}
 		}
-		catch (Exception $e)
-		{
-			$this->open = false;
-		}
 		return $this->open;
 	
 	}
 	public function isOpen() { return $this->open; }
+	public function available()
+	{
+		return in_array($this->StatusCode,$this->statusOnline);
+	}
 	public function peers()
 	{
 	
